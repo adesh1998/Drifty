@@ -4,6 +4,7 @@ import Enums.Colors;
 import Enums.Program;
 import GUI.Support.Job;
 import Utils.Utility;
+import io.github.pixee.security.BoundedLineReader;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -174,7 +175,7 @@ public class GetFilename extends Task<ConcurrentLinkedDeque<Job>> {
                     )
                     {
                         String line;
-                        while ((line = reader.readLine()) != null) {
+                        while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
                             if (this.isCancelled()) {
                                 break;
                             }
