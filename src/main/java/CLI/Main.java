@@ -182,7 +182,7 @@ public class Main {
             }
             System.out.println(QUIT_OR_CONTINUE);
             String choice = SC.next().toLowerCase();
-            if (choice.equals("q")) {
+            if ("q".equals(choice)) {
                 LOGGER.log(MessageType.INFO, CLI_APPLICATION_TERMINATED);
                 break;
             }
@@ -307,9 +307,9 @@ public class Main {
                 isYoutubeURL = isYoutube(link);
                 isInstagramLink = isInstagram(link);
                 isSpotifyLink = isSpotify(link);
-                if (downloadsFolder.equals(".")) {
+                if (".".equals(downloadsFolder)) {
                     downloadsFolder = Utility.getHomeDownloadFolder().toString();
-                } else if (downloadsFolder.equalsIgnoreCase("L")) {
+                } else if ("L".equalsIgnoreCase(downloadsFolder)) {
                     downloadsFolder = AppSettings.GET.lastDownloadFolder();
                 } else if (downloadsFolder.isEmpty()) {
                     try {
@@ -373,9 +373,9 @@ public class Main {
     private static String getProperDownloadsFolder(String downloadsFolder) {
         if (downloadsFolder == null) {
             downloadsFolder = Utility.getHomeDownloadFolder().toString();
-        } else if (downloadsFolder.equalsIgnoreCase("L")) {
+        } else if ("L".equalsIgnoreCase(downloadsFolder)) {
             downloadsFolder = AppSettings.GET.lastDownloadFolder();
-        } else if (downloadsFolder.equals(".")) {
+        } else if (".".equals(downloadsFolder)) {
             downloadsFolder = Utility.getHomeDownloadFolder().toString();
         } else {
             downloadsFolder = Paths.get(downloadsFolder).toAbsolutePath().toString();

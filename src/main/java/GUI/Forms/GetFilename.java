@@ -89,7 +89,7 @@ public class GetFilename extends Task<ConcurrentLinkedDeque<Job>> {
                 for (File file : files) {
                     try {
                         String ext = FilenameUtils.getExtension(file.getAbsolutePath());
-                        if (ext.equalsIgnoreCase("json") || ext.equalsIgnoreCase("spotdl")) {
+                        if ("json".equalsIgnoreCase(ext) || "spotdl".equalsIgnoreCase(ext)) {
                             String jsonString = FileUtils.readFileToString(file, Charset.defaultCharset());
                             String filename;
                             if (isSpotify(link)) {
