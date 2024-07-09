@@ -10,6 +10,7 @@ import GUI.Support.SplitDownloadMetrics;
 import Utils.Environment;
 import Utils.MessageBroker;
 import Utils.Utility;
+import io.github.pixee.security.BoundedLineReader;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -115,7 +116,7 @@ public class DownloadFile extends Task<Integer> {
         }
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(process).getInputStream()))) {
             String line;
-            while ((line = reader.readLine()) != null) {
+            while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
                 progressProperty.setValue(line);
             }
         } catch (IOException e) {
@@ -436,7 +437,7 @@ public class DownloadFile extends Task<Integer> {
             process = processBuilder.start();
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(process).getInputStream()))) {
                 String line;
-                while ((line = reader.readLine()) != null) {
+                while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
                     if (!line.contains("Processing query:") && line.startsWith("http")) {
                         sendInfoMessage("Download link retrieved successfully!");
                         exitCode = 0;
