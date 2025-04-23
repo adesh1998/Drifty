@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import io.github.pixee.security.BoundedLineReader;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.text.StringEscapeUtils;
@@ -286,7 +287,7 @@ public final class Utility {
                 Process p = pb.start();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 String line;
-                while ((line = reader.readLine()) != null) {
+                while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
                     if (line.contains("ERROR") || line.contains("WARNING")) {
                         if (line.contains("unable to extract username")) {
                             M.msgLinkError("The Instagram post/reel is private!");
@@ -354,7 +355,7 @@ public final class Utility {
             process = processBuilder.start();
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(process).getInputStream()))) {
                 String line;
-                while ((line = reader.readLine()) != null) {
+                while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
                     if (!line.contains("Processing query:") && line.startsWith("http")) {
                         M.msgDownloadInfo("Download link retrieved successfully!");
                         return line;
@@ -386,7 +387,7 @@ public final class Utility {
             }
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(ytDlpVersionTask).getInputStream()))) {
                 String line;
-                while ((line = reader.readLine()) != null) {
+                while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
                     AppSettings.SET.ytDlpVersion(line);
                 }
             } catch (IOException e) {
@@ -408,7 +409,7 @@ public final class Utility {
             }
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(spotdlVersionTask).getInputStream()))) {
                 String line;
-                while ((line = reader.readLine()) != null) {
+                while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
                     AppSettings.SET.spotDLVersion(line);
                 }
             } catch (IOException e) {
